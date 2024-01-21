@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from .models import *
 from .serializer import *
 from rest_framework import generics
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 class Home(APIView):
     def get(self, request, *args, **kwargs):
@@ -25,5 +27,10 @@ class Home(APIView):
 class CreateBlogpost(generics.ListCreateAPIView):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
-    
 
+class UserView(generics.ListCreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
+class Login(TokenObtainPairView):
+    pass

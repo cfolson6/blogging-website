@@ -22,4 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', Home.as_view(), name=""),
     path('create-blogpost', CreateBlogpost.as_view(), name="create-blogpost"),
+    path('login', Login.as_view(), name="login"),
+    path('user', UserView.as_view(), name="user")
 ]
