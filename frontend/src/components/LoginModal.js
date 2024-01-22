@@ -24,6 +24,22 @@ function LoginModal(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    const [username, setUsername] = React.useState('');
+    const [password, setPassword] = React.useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        console.log('Username: ', username);
+        console.log('Password: ', password);
+
+        axios.post('http://localhost:8000/login', {username: username, password: password})
+        .then(response => console.log(response))
+        .catch(error => console.log('Login error: ', error));
+
+        handleClose();
+    }
     
     return (
         <div>
@@ -35,15 +51,15 @@ function LoginModal(props) {
                 aria-labelledby="keep-mounted-modal-title"
                 aria-describedby="keep-mounted-modal-description"
             >
-                <Box sx={style} component="form" noValidate autoComplete='off'>
+                <Box sx={style} component="form" noValidate autoComplete='off' onSubmit={handleSubmit}>
                     <Stack spacing={2}>
                         <Typography variant="h4" gutterBottom>Log In</Typography>
                         <Typography variant="p1" gutterBottom>
                             Enter your username and password.
                         </Typography>
-                        <TextField label="Username"/>
-                        <TextField label="Password"/>
-                        <Button variant="contained">Log In</Button>
+                        <TextField label="Username" required onChange={(e) => setUsername(e.target.value)}/>
+                        <TextField label="Password" required onChange={(e) => setPassword(e.target.value)}/>
+                        <Button variant="contained" type="submit">Log In</Button>
                     </Stack>
                 </Box>
             </Modal>
