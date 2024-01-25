@@ -61,7 +61,7 @@ function App(props) {
   const [refreshToken, setRefreshToken] = React.useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8000/create-blogpost')
+    axios.get('http://localhost:8000/blogpost/')
     .then(response => {
       console.log('Blogpost data: ', response.data);
 

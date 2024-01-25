@@ -32,10 +32,12 @@ function LoginModal(props) {
     const [password, setPassword] = React.useState('');
 
     const handleSubmit = (e) => {
+        e.preventDefault();
+        
         console.log('Username: ', username);
         console.log('Password: ', password);
 
-        axios.post('http://localhost:8000/login', {username: username, password: password})
+        axios.post('http://localhost:8000/login/', {username: username, password: password})
         .then(response => {
             console.log(response);
             props.setAccessToken(response.data.access);

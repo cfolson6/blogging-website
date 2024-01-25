@@ -8,6 +8,7 @@ from .serializer import *
 from rest_framework import generics
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.permissions import IsAuthenticated
 
 class Home(APIView):
     def get(self, request, *args, **kwargs):
@@ -24,7 +25,7 @@ class Home(APIView):
 
         return Response(response_data, status=status.HTTP_200_OK)
     
-class CreateBlogpost(generics.ListCreateAPIView):
+class BlogPostView(generics.ListCreateAPIView):
     queryset = BlogPost.objects.all()
     serializer_class = BlogPostSerializer
 
@@ -34,3 +35,8 @@ class UserView(generics.ListCreateAPIView):
     
 class Login(TokenObtainPairView):
     pass
+
+
+
+
+
