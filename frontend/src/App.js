@@ -57,6 +57,8 @@ function App(props) {
   // end stuff for drawer appbar
   
   const [blogPostData, setBlogPostData] = useState([]);
+  const [accessToken, setAccessToken] = React.useState(null);
+  const [refreshToken, setRefreshToken] = React.useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:8000/create-blogpost')
@@ -116,7 +118,7 @@ function App(props) {
               </Button>
             ))}
           </Box>
-          <LoginModal/>
+          <LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>
         </Toolbar>
       </AppBar>
       <nav>

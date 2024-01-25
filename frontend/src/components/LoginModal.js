@@ -23,22 +23,27 @@ const style = {
 function LoginModal(props) {
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleClose = () => {
+        
+        setOpen(false);
+    }
 
     const [username, setUsername] = React.useState('');
     const [password, setPassword] = React.useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault();
-
         console.log('Username: ', username);
         console.log('Password: ', password);
 
         axios.post('http://localhost:8000/login', {username: username, password: password})
-        .then(response => console.log(response))
+        .then(response => {
+            console.log(response);
+            props.setAccessToken(response.data.access);
+            props.setRefreshToken(response.data.refresh);
+            e.target.reset();
+            handleClose();
+        })
         .catch(error => console.log('Login error: ', error));
-
-        handleClose();
     }
     
     return (
@@ -58,7 +63,7 @@ function LoginModal(props) {
                             Enter your username and password.
                         </Typography>
                         <TextField label="Username" required onChange={(e) => setUsername(e.target.value)}/>
-                        <TextField label="Password" required onChange={(e) => setPassword(e.target.value)}/>
+                        <TextField label="Password" required onChange={(e) => setPassword(e.target.value)} type="password"/>
                         <Button variant="contained" type="submit">Log In</Button>
                     </Stack>
                 </Box>
