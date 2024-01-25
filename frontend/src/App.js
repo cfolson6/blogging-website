@@ -89,6 +89,34 @@ function App(props) {
 
     return posts;
   }
+
+  const loginOrUsername = () => {
+    if (null === accessToken || null === refreshToken) {
+      return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
+    } else {
+      const headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      
+      axios.get('http://localhost:8000/user/get-by-token/', { headers })
+      .then(response => {
+        console.log(response.data);
+        return (
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+          >
+            { response.data.username }
+          </Typography>
+        );
+      })
+      .catch(error => {
+        console.log('error: ', error);
+        return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
+      });
+    }
+  }
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -118,7 +146,7 @@ function App(props) {
               </Button>
             ))}
           </Box>
-          <LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>
+          {loginOrUsername()}
         </Toolbar>
       </AppBar>
       <nav>

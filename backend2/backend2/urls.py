@@ -23,5 +23,7 @@ urlpatterns = [
     path('', Home.as_view(), name=""),
     path('blogpost/', BlogPostView.as_view(), name="blogpost"),
     path('login/', Login.as_view(), name="login"),
-    path('user/', UserView.as_view(), name="user")
+    path('user/', UserView.as_view(), name="user"),
+    path('blogpost/create/', CreateBlogPostView.as_view(), name="create blogpost"),
+    path('user/get-by-token/', GetUserByToken.as_view(), name="get user by token"),
 ]
