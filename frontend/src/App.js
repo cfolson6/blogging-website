@@ -22,6 +22,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
@@ -97,18 +98,16 @@ function App(props) {
       const headers = {
         Authorization: `Bearer ${accessToken}`,
       };
+
+      console.log('Access token: ', accessToken);
+      console.log('Headers: ', headers);
       
       axios.get('http://localhost:8000/user/get-by-token/', { headers })
       .then(response => {
-        console.log(response.data);
+        console.log(response);
+        console.log(response.data.username);
         return (
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            { response.data.username }
-          </Typography>
+          <LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>
         );
       })
       .catch(error => {

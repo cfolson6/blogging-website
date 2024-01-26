@@ -56,7 +56,7 @@ class Login(TokenObtainPairView):
     pass
 
 class GetUserByToken(APIView):
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
     
     def get(self, request):
