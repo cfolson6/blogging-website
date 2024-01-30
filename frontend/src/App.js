@@ -91,31 +91,60 @@ function App(props) {
     return posts;
   }
 
-  const loginOrUsername = () => {
-    if (null === accessToken || null === refreshToken) {
-      return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
-    } else {
-      const headers = {
-        Authorization: `Bearer ${accessToken}`,
-      };
+  // // used in loginOrUsername method
+  // const usernamePromise = new Promise((resolve, reject) => {
+  //   const headers = {
+  //     Authorization: `Bearer ${accessToken}`,
+  //   };
 
-      console.log('Access token: ', accessToken);
-      console.log('Headers: ', headers);
-      
-      axios.get('http://localhost:8000/user/get-by-token/', { headers })
-      .then(response => {
-        console.log(response);
-        console.log(response.data.username);
-        return (
-          <LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>
-        );
-      })
-      .catch(error => {
-        console.log('error: ', error);
-        return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
-      });
+  //   axios.get('http://localhost:8000/user/get-by-token/', { headers })
+  //     .then(response => {
+  //       const returnedUsername = response.data.username;
+  //       resolve(<Button color="inherit">{returnedUsername}</Button>);
+  //     })
+  //     .catch(error => {
+  //       console.log('error: ', error);
+  //       reject(error);
+  //     });
+  // });
+
+  // const loginOrUsername = () => {
+  //   if (null === accessToken || null === refreshToken) {
+  //     return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
+  //   } else {
+  //     usernamePromise.then(
+  //       (result) => {
+  //         return result;
+  //       },
+  //       (error) => {
+  //         console.error('Error fetching username:', error);
+  //         return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
+  //       }
+  //     );
+  //   }
+  // }
+
+  const [usernameComponent, setUsernameComponent] = useState(<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken} />);
+
+  useEffect(() => {
+    const fetchUsername = async () => {
+      try {
+        const headers = {
+          Authorization: `Bearer ${accessToken}`,
+        };
+        const response = await axios.get('http://localhost:8000/user/get-by-token/', { headers });
+        const returnedUsername = response.data.username;
+        setUsernameComponent(<Button color="inherit">{returnedUsername}</Button>);
+      } catch (error) {
+        console.error('Error fetching username:', error);
+        setUsernameComponent(<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken} />);
+      }
+    };
+
+    if (accessToken && refreshToken) {
+      fetchUsername();
     }
-  }
+  }, [accessToken, refreshToken]); // Trigger the effect when accessToken or refreshToken changes
   
   return (
     <Box sx={{ display: 'flex' }}>
@@ -145,7 +174,7 @@ function App(props) {
               </Button>
             ))}
           </Box>
-          {loginOrUsername()}
+          {usernameComponent}
         </Toolbar>
       </AppBar>
       <nav>
