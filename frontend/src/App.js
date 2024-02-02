@@ -107,7 +107,7 @@ function App(props) {
         </Button>
       );
     } else {
-      return <PostField accessToken={accessToken} setPostFieldOpen={setPostFieldOpen} />;
+      return <PostField accessToken={accessToken} setPostFieldOpen={setPostFieldOpen} setBlogPostData={setBlogPostData} />;
     }
   }
 

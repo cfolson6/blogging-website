@@ -26,4 +26,5 @@ urlpatterns = [
     path('user/', UserView.as_view(), name="user"),
     path('blogpost/create/', CreateBlogPostView.as_view(), name="create blogpost"),
     path('user/get-by-token/', GetUserByToken.as_view(), name="get user by token"),
+    path('user/get-by-id/', GetUserById.as_view(), name="get user by id"),
 ]

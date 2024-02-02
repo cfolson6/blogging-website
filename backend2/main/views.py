@@ -51,6 +51,16 @@ class CreateBlogPostView(APIView):
 class UserView(generics.ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+class GetUserById(APIView):
+    def get(self, request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)  # Retrieve user by user id
+        except User.DoesNotExist:
+            return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = UserSerializer(user)  # Serialize user object
+        return Response(serializer.data)
     
 class Login(TokenObtainPairView):
     pass
