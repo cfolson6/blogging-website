@@ -31,7 +31,7 @@ class BlogPostView(generics.ListCreateAPIView):
     serializer_class = BlogPostSerializer
 
 class CreateBlogPostView(APIView):
-    authentication_classes = [TokenAuthentication]
+    #authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

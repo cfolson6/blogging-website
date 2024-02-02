@@ -5,6 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import BlogPost from './components/BlogPost';
 import LoginModal from './components/LoginModal';
+import PostField from './components/PostField';
 
 import Container from '@mui/material/Container';
 import Stack from '@mui/material/Stack';
@@ -85,46 +86,34 @@ function App(props) {
     let posts = [];
     
     for (let i = 0; i < blogPostData.length; i++) {
-      posts[i] = <BlogPost title={blogPostData[i].title} text={blogPostData[i].text} username={getUserName(blogPostData[i])} />;
+      posts[blogPostData.length -1 -i] = <BlogPost 
+        title={blogPostData[i].title} text={blogPostData[i].text} username={getUserName(blogPostData[i])} 
+      />;
     }
 
     return posts;
   }
 
-  // // used in loginOrUsername method
-  // const usernamePromise = new Promise((resolve, reject) => {
-  //   const headers = {
-  //     Authorization: `Bearer ${accessToken}`,
-  //   };
+  const [postFieldOpen, setPostFieldOpen] = useState(false);
 
-  //   axios.get('http://localhost:8000/user/get-by-token/', { headers })
-  //     .then(response => {
-  //       const returnedUsername = response.data.username;
-  //       resolve(<Button color="inherit">{returnedUsername}</Button>);
-  //     })
-  //     .catch(error => {
-  //       console.log('error: ', error);
-  //       reject(error);
-  //     });
-  // });
+  // returns new post button or post field, or nothing if the user isn't logged in
+  const buttonOrPostField = () => {
+    if (null === accessToken) return null;
+    
+    if (!postFieldOpen) {
+      return (
+        <Button onClick={() => setPostFieldOpen(true)}>
+          New Blogpost
+        </Button>
+      );
+    } else {
+      return <PostField accessToken={accessToken} setPostFieldOpen={setPostFieldOpen} />;
+    }
+  }
 
-  // const loginOrUsername = () => {
-  //   if (null === accessToken || null === refreshToken) {
-  //     return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
-  //   } else {
-  //     usernamePromise.then(
-  //       (result) => {
-  //         return result;
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching username:', error);
-  //         return (<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken}/>);
-  //       }
-  //     );
-  //   }
-  // }
-
-  const [usernameComponent, setUsernameComponent] = useState(<LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken} />);
+  const [usernameComponent, setUsernameComponent] = useState(
+    <LoginModal setAccessToken={setAccessToken} setRefreshToken={setRefreshToken} />
+  );
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -197,6 +186,7 @@ function App(props) {
       <Container maxWidth="sm">
         <Toolbar />
         <Stack spacing={2}>
+          {buttonOrPostField()}
           {displayBlogPosts()}
         </Stack>
       </Container>
