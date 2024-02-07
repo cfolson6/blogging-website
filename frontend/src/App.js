@@ -61,7 +61,6 @@ function App(props) {
   const [blogPostData, setBlogPostData] = useState([]);
   const [accessToken, setAccessToken] = React.useState(null);
   const [refreshToken, setRefreshToken] = React.useState(null);
-  const [usernameMap, setUsernameMap] = React.useState(new Map());
 
   useEffect(() => {
     axios.get('http://localhost:8000/blogpost/')
@@ -75,33 +74,11 @@ function App(props) {
     });
   }, []);
 
-  useEffect(() => {
-    setUsernameMap(new Map());
-    
-    for (let i = 0; i < blogPostData.length; i++) {
-      if (!usernameMap.has(blogPostData[i].user) && null !== blogPostData[i].user) {
-        console.log("blogPostData[i].user:", blogPostData[i].user);
-        
-        axios.get('http://localhost:8000/user/get-by-id/' + blogPostData[i].user)
-        .then(response => {
-          console.log("Get by id response:", response);
-          usernameMap.set(blogPostData[i].user, response.data.username);
-        })
-        .catch(error => {
-          console.log('Get by id error:', error);
-        });
-      }
-    }
-
-    setUsernameMap(usernameMap);
-    console.log(usernameMap);
-  }, [blogPostData]); // triggers effect whenever Blogpost data changes
-
   const getUserName = data => {
     if (null === data.user) {
       return '[USER DELETED]';
     } else {
-      return usernameMap.get(data.user);
+      return '@' + data.user.username;
     }
   }
 
