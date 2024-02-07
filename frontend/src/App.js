@@ -87,7 +87,10 @@ function App(props) {
     
     for (let i = 0; i < blogPostData.length; i++) {
       posts[blogPostData.length -1 -i] = <BlogPost 
-        title={blogPostData[i].title} text={blogPostData[i].text} username={getUserName(blogPostData[i])} 
+        title={blogPostData[i].title} 
+        text={blogPostData[i].text} 
+        username={getUserName(blogPostData[i])} 
+        time_created={blogPostData[i].time_created}
       />;
     }
 
