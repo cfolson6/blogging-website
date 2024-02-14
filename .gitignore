@@ -24,3 +24,4 @@ yarn-error.log*
 
 # additions by Carl and Mark
 *.pyc
+ frontend/node_modules/.cache/*

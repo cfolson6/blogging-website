@@ -36,10 +36,10 @@ class CreateBlogPostView(APIView):
 
     def post(self, request):
         # Access the authenticated user using request.user
-        user = request.user
+        user_id = request.user.id
 
         # Create a serializer instance with user and request data
-        serializer = BlogPostSerializer(data={'user': user.id, **request.data})
+        serializer = BlogPostSerializer2(data={'user': user_id, **request.data})
 
         if serializer.is_valid():
             # Save the serializer instance to create a new blog post
