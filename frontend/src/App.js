@@ -24,9 +24,26 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 const drawerWidth = 240;
 const navItems = ['Home', 'About', 'Contact'];
+
+const appTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#c185bc',
+    },
+    secondary: {
+      main: '#d81767',
+    },
+    background: {
+      default: '#2f2043',
+      paper: '#0e081c',
+    },
+  },
+});
 
 function App(props) {
   // stuff for the drawer appbar
@@ -136,61 +153,63 @@ function App(props) {
   }, [accessToken, refreshToken]); // Trigger the effect when accessToken or refreshToken changes
   
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar component="nav">
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
+    <ThemeProvider theme={appTheme}>
+      <Box sx={{ display: 'flex' }}>
+        <CssBaseline />
+        <AppBar component="nav">
+          <Toolbar>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{ mr: 2, display: { sm: 'none' } }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography
+              variant="h6"
+              component="div"
+              sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
+            >
+              W
+            </Typography>
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              {navItems.map((item) => (
+                <Button key={item} sx={{ color: '#fff' }}>
+                  {item}
+                </Button>
+              ))}
+            </Box>
+            {usernameComponent}
+          </Toolbar>
+        </AppBar>
+        <nav>
+          <Drawer
+            container={container}
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+            }}
           >
-            <MenuIcon />
-          </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
-            sx={{ flexGrow: 1, display: { xs: 'none', sm: 'block' } }}
-          >
-            W
-          </Typography>
-          <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-            {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#fff' }}>
-                {item}
-              </Button>
-            ))}
-          </Box>
-          {usernameComponent}
-        </Toolbar>
-      </AppBar>
-      <nav>
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={mobileOpen}
-          onClose={handleDrawerToggle}
-          ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
-          }}
-          sx={{
-            display: { xs: 'block', sm: 'none' },
-            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-          }}
-        >
-          {drawer}
-        </Drawer>
-      </nav>
-      <Container maxWidth="sm">
-        <Toolbar />
-        <Stack spacing={2}>
-          {buttonOrPostField()}
-          {displayBlogPosts()}
-        </Stack>
-      </Container>
-    </Box>
+            {drawer}
+          </Drawer>
+        </nav>
+        <Container maxWidth="sm">
+          <Toolbar />
+          <Stack spacing={2} marginTop={2} marginBottom={2}>
+            {buttonOrPostField()}
+            {displayBlogPosts()}
+          </Stack>
+        </Container>
+      </Box>
+    </ThemeProvider>
   );
 }
 
