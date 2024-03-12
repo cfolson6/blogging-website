@@ -7,6 +7,9 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
+import Badge from '@mui/material/Badge';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import Avatar from '@mui/material/Avatar';
 
 const style = {
     position: 'absolute',
@@ -50,7 +53,7 @@ function LoginModal(props) {
     
     return (
         <div>
-            <Button onClick={handleOpen} color="inherit">Login</Button>
+            <Button onClick={handleOpen} color="primary" variant="outlined">Login</Button>
             <Modal
                 keepMounted
                 open={open}
@@ -59,14 +62,17 @@ function LoginModal(props) {
                 aria-describedby="keep-mounted-modal-description"
             >
                 <Box sx={style} component="form" noValidate autoComplete='off' onSubmit={handleSubmit}>
-                    <Stack spacing={2}>
+                    <Stack spacing={2} sx={{alignItems: 'center'}}>
+                        <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                            <LockOutlinedIcon />
+                        </Avatar>
                         <Typography variant="h4" gutterBottom>Log In</Typography>
                         <Typography variant="p1" gutterBottom>
                             Enter your username and password.
                         </Typography>
-                        <TextField label="Username" required onChange={(e) => setUsername(e.target.value)}/>
-                        <TextField label="Password" required onChange={(e) => setPassword(e.target.value)} type="password"/>
-                        <Button variant="contained" type="submit">Log In</Button>
+                        <TextField label="Username" required onChange={(e) => setUsername(e.target.value)} fullWidth/>
+                        <TextField label="Password" required onChange={(e) => setPassword(e.target.value)} type="password" fullWidth/>
+                        <Button variant="contained" type="submit" fullWidth>Log In</Button>
                     </Stack>
                 </Box>
             </Modal>

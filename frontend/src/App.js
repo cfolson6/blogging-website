@@ -33,14 +33,14 @@ const appTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#c185bc',
+      main: '#e24470',
     },
     secondary: {
-      main: '#d81767',
+      main: '#ff8b54',
     },
     background: {
-      default: '#2f2043',
-      paper: '#0e081c',
+      paper: '#070714',
+      default: '#070714',
     },
   },
 });

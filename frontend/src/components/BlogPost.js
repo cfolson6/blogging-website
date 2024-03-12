@@ -6,13 +6,14 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import CardHeader from '@mui/material/CardHeader';
+import Avatar from '@mui/material/Avatar';
 
 
 function BlogPost(props) {
     return(<React.Fragment>
         <Card>
-            <CardHeader title={props.username} />
-            <CardContent sx={{backgroundColor: 'background.paper'}}>
+            <CardHeader title={props.username} avatar={<Avatar/>} />
+            <CardContent>
                 <Typography variant="h6" gutterBottom>
                     {props.title}
                 </Typography>
